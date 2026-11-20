@@ -1,0 +1,12 @@
+{
+  "title": "Tang Lab",
+  "standalone": true,
+  "brand_url": "#top",
+  "nav": [
+    {
+      "id": "@catalogue",
+      "title": "Catalogue"
+    }
+  ],
+  "subtitle": "Parts catalogue"
+}

@@ -1,0 +1,62 @@
+{
+  "wiki_url": "/wiki/doku.php?id=",
+  "title": "Tang Lab",
+  "nav": [
+    {
+      "id": "start",
+      "title": "Home"
+    },
+    {
+      "id": "safety",
+      "title": "Safety"
+    },
+    {
+      "id": "onboarding",
+      "title": "Onboarding"
+    },
+    {
+      "id": "equipment",
+      "title": "Equipment"
+    },
+    {
+      "id": "equipment:cnc_printer",
+      "title": "CNC mill and 3D printer",
+      "sub": true
+    },
+    {
+      "id": "sops",
+      "title": "Lab SOPs"
+    },
+    {
+      "id": "sops:backup",
+      "title": "Data Backup",
+      "sub": true
+    },
+    {
+      "id": "sops:electrical",
+      "title": "Electrical Measurement SOP",
+      "sub": true
+    },
+    {
+      "id": "sops:optical",
+      "title": "Optical Setup SOP",
+      "sub": true
+    },
+    {
+      "id": "sops:sample",
+      "title": "Sample Handling",
+      "sub": true
+    },
+    {
+      "id": "@catalogue",
+      "title": "Catalogue"
+    },
+    {
+      "id": "@add",
+      "title": "Add an item",
+      "sub": true,
+      "url": "/wiki/add_item.php"
+    }
+  ],
+  "add_url": "/wiki/add_item.php"
+}
