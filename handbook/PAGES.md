@@ -16,3 +16,13 @@ This puts the searchable, photo catalogue on the web with no server. It rebuilds
 To change the sidebar of the public page, edit `handbook/handbook.pages.json` (for example, add a link to the lab's Confluence space: `{"id": "@wiki", "title": "Lab wiki", "url": "https://..."}`).
 
 Test on your laptop: `python3 handbook/build_catalogue.py --out _site --config handbook/handbook.pages.json`, then open `_site/index.html`.
+
+## Adding items from the website
+
+The public page has an **Add an item** tab: take a photo, optionally let AI fill in the form, check it, and save. It commits the new row to `optics_catalog.csv` and the photo to `crops/<ID>.jpg`, and the site rebuilds by itself.
+
+Each person sets this up once per browser (the tab has a "Keys and repository" box):
+- **GitHub token** (needed to save): github.com/settings/personal-access-tokens/new, restricted to this repository, with *Contents: Read and write*. The person needs write access to the repo.
+- **Anthropic API key** (optional, for the AI fill-in): console.anthropic.com/settings/keys. Usage is billed to the key's owner.
+
+Keys are stored only in that browser and sent only to api.github.com and api.anthropic.com. The AI only sees the photo, so everything it fills in is marked as unconfirmed and the item gets a "needs check" flag until someone verifies it.

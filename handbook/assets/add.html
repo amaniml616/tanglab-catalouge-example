@@ -1,0 +1,41 @@
+<section class="page" id="p-add" hidden style="max-width:900px">
+<h1>Add an item</h1>
+<p class="lede">Take a photo, let AI fill in the form, check every field against the item, and save. The item and its photo are committed to the inventory repository and appear on this page after the site rebuilds (about a minute or two).</p>
+
+<details id="a-set" class="aset">
+<summary>Keys and repository (set once per browser)</summary>
+<div class="fg">
+<label class="wide">GitHub access token<input id="s-gh" type="password" autocomplete="off" placeholder="github_pat_..."><small>Needed to save. Create a fine-grained token at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>: limit it to this one repository and give it <b>Contents: Read and write</b>. You need write access to the repository.</small></label>
+<label class="wide">Anthropic API key (for the AI fill-in)<input id="s-ai" type="password" autocomplete="off" placeholder="sk-ant-..."><small>Optional. Without it you can still fill the form by hand. Get one at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. Each photo costs a small amount, billed to the key's owner.</small></label>
+<label>Repository<input id="s-repo" placeholder="owner/name"></label>
+<label>Branch<input id="s-branch" placeholder="main"></label>
+<label class="wide">AI model<input id="s-model" placeholder="claude-sonnet-5-5"><small>Leave as is unless the AI step reports that the model is not found.</small></label>
+</div>
+<p><button class="btn" type="button" id="s-save">Save settings</button> <button class="btn alt" type="button" id="s-forget">Forget keys on this device</button></p>
+<p class="hint">Keys are stored only in this browser. They are sent only to api.github.com and api.anthropic.com, never to this website. Do not use this on a shared computer.</p>
+</details>
+
+<div id="a-msg" class="notice" hidden></div>
+
+<form id="a-form" autocomplete="off">
+<div class="photo"><label class="btn" for="a-cam">Take a photo</label><label class="btn alt" for="a-file">Choose a photo</label>
+<input id="a-cam" type="file" accept="image/*" capture="environment"><input id="a-file" type="file" accept="image/*"></div>
+<img id="a-prev" alt="" hidden>
+<p><button class="btn alt" type="button" id="a-ai" disabled>Fill in with AI</button> <span id="a-aistat" class="hint"></span></p>
+<p class="hint">Get close so the item and any label fill the frame. The photo is resized to about 460 px before it is saved.</p>
+<div class="fg">
+<label class="wide">Kind of item<select id="f-type" required></select><small>Decides the ID (the next free number is assigned for you) and the catalogue section.</small></label>
+<label class="wide">Item name<input id="f-name" required maxlength="300"><small>What it is, in plain words. Lead with the distinguishing feature.</small></label>
+<label>Manufacturer<input id="f-maker" required maxlength="200"><small>Or write Unmarked.</small></label>
+<label>Part number<input id="f-part" maxlength="200"><small>Copy exactly, including lot codes and engravings.</small></label>
+<label>Wavelength range<input id="f-wave" maxlength="100"><small>Leave empty for non-optical items.</small></label>
+<label>Size / aperture / mount<input id="f-size" maxlength="200"></label>
+<label>Key spec<input id="f-spec" maxlength="300"><small>The one number that matters most, such as focal length.</small></label>
+<label>Quantity<input id="f-qty" type="number" min="1" max="9999" value="1" required></label>
+<label class="wide">Bench or experiment<input id="f-setup" maxlength="200"><small>Where it belongs, if known.</small></label>
+<label class="wide">What it is for, and what could go wrong<textarea id="f-notes" rows="5" maxlength="3000"></textarea><small>Plain sentences. Mention anything that will bite someone: damage limits, polarisation, fragile coatings. Write NOT CONFIRMED next to anything you guessed.</small></label>
+<label class="chk"><input id="f-unsure" type="checkbox" checked><span>Details not checked against the part yet (adds a "needs check" flag so someone confirms it)</span></label>
+</div>
+<p><button class="btn" type="submit" id="a-go">Add to catalogue</button></p>
+</form>
+</section>

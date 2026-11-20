@@ -105,6 +105,20 @@ for item in cfg['nav']:
         n += 1; on = ' class="on"' if item['id'] == '@catalogue' else ''
         nav.append(f'<a href="{e(href)}" data-p="x"{on}><span>{n:02d}</span>{e(item["title"])}</a>')
 
+add_html, add_js = '', ''
+add_cfg = cfg.get('add_item')
+if add_cfg:
+    from collections import Counter as _C
+    _k = {}
+    for r in rows: _k.setdefault(r['ID'].split('-')[0], _C())[r['Category']] += 1
+    add_data = {'repo': add_cfg.get('repo') or os.environ.get('GITHUB_REPOSITORY', ''),
+                'branch': add_cfg.get('branch') or os.environ.get('GITHUB_REF_NAME', '') or 'main',
+                'model': add_cfg.get('model', 'claude-sonnet-5-5'),
+                'types': [{'prefix': k, 'category': c.most_common(1)[0][0], 'group': group_of(c.most_common(1)[0][0])} for k, c in sorted(_k.items())]}
+    add_html = open(os.path.join(HERE, 'assets', 'add.html'), encoding='utf-8').read() + \
+        '<script id="add-data" type="application/json">' + json.dumps(add_data).replace('</', '<\\/') + '</script>'
+    add_js = open(os.path.join(HERE, 'assets', 'add.js'), encoding='utf-8').read()
+
 side_html = f'''<nav class="side"><a class="brand" href="{e(cfg.get('brand_url', WIKI + 'start'))}">{e(cfg.get('title', 'Tang Lab'))}<br><small>{e(cfg.get('subtitle', 'Wiki'))}</small></a>{''.join(nav)}</nav>'''
 body = f'''<div class="shell">{side_html}
 <main><section class="page" id="p-catalogue" style="max-width:900px">
@@ -114,7 +128,7 @@ body = f'''<div class="shell">{side_html}
 <div class="chips"><button class="chip on" data-s="">All <i>{len(rows)}</i></button>{chips}</div>
 <p id="cnt" class="cnt"></p>
 <div id="list">{''.join(items)}</div>
-</section></main></div>'''
+</section>{add_html}</main></div>'''
 
 js = r'''(function(){
 var q=document.getElementById('q'),grp=document.getElementById('grp'),onlyf=document.getElementById('onlyf'),cnt=document.getElementById('cnt'),chips=document.querySelectorAll('.chip'),its=document.querySelectorAll('.it'),sup='';
@@ -125,7 +139,9 @@ function clear(){q.value='';grp.value='';onlyf.checked=false;sup='';chips.forEac
 q.addEventListener('input',apply);grp.addEventListener('change',apply);onlyf.addEventListener('change',apply);
 chips.forEach(function(c){c.addEventListener('click',function(){sup=c.dataset.s;chips.forEach(function(x){x.classList.toggle('on',x===c)});apply()})});
 function openItem(id){var it=id&&document.getElementById(id);if(it&&it.classList.contains('it')){clear();it.open=true;setTimeout(function(){it.scrollIntoView({block:'start'})},30);return true}return false}
-function route(){var m=/[?&]item=([A-Za-z0-9-]+)/.exec(location.search),h=decodeURIComponent(location.hash.slice(1));if(!(m&&openItem(m[1])))openItem(h)}
+function view(){var a=location.hash==='#add',pa=document.getElementById('p-add');if(!pa)return;document.getElementById('p-catalogue').hidden=a;pa.hidden=!a;
+ document.querySelectorAll('.side a[data-p]').forEach(function(l){var h=l.getAttribute('href');l.classList.toggle('on',a?h==='#add':h==='#top')});if(a)window.scrollTo(0,0)}
+function route(){view();var m=/[?&]item=([A-Za-z0-9-]+)/.exec(location.search),h=decodeURIComponent(location.hash.slice(1));if(!(m&&openItem(m[1])))openItem(h)}
 window.addEventListener('hashchange',route);
 apply();route();
 })();'''
@@ -133,7 +149,7 @@ css = open(os.path.join(HERE, 'assets', 'catalogue.css'), encoding='utf-8').read
 page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tang Lab Catalogue</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>{css}</style></head><body>{body}<script>{js}</script></body></html>'''
+<style>{css}</style></head><body>{body}<script>{js}</script>{('<script>' + add_js + '</script>') if add_js else ''}</body></html>'''
 
 def shareable(path):
     """Group-writable, so the wiki's web user and the GitHub runner user can both rebuild."""

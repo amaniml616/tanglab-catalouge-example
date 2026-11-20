@@ -120,3 +120,5 @@ ul.plain{list-style:none;padding:0}ul.plain li{padding:6px 0;border-bottom:1px s
 .itagnew{grid-column:6;grid-row:1;font:500 11px "IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--link);border:1px solid var(--link);padding:0 5px;margin-left:6px}
 .fg .chk{grid-column:1/-1;flex-direction:row;align-items:flex-start;gap:10px;font:15px/1.4 "IBM Plex Sans",sans-serif;text-transform:none;letter-spacing:0;color:var(--ink)}
 .fg .chk input{width:18px;height:18px;min-height:0;flex:none;margin-top:2px;padding:0}
+.notice.ok{border-left-color:#2f6b3c}.notice.err{border-left-color:var(--accent)}
+.aset{margin:0 0 18px;border:1px solid var(--line);padding:10px 14px;background:var(--paper)}.aset summary{cursor:pointer;font-weight:500}

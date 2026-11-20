@@ -6,7 +6,17 @@
     {
       "id": "@catalogue",
       "title": "Catalogue"
+    },
+    {
+      "id": "@add",
+      "title": "Add an item",
+      "url": "#add"
     }
   ],
-  "subtitle": "Parts catalogue"
+  "subtitle": "Parts catalogue",
+  "add_item": {
+    "repo": "",
+    "branch": "",
+    "model": "claude-sonnet-5-5"
+  }
 }
